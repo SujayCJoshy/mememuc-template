@@ -4,41 +4,71 @@
     "title": "Funny Dog Meme",
     "votes": 150,
     "screen_reader": "A meme featuring a dog with a funny expression",
-    "file_path": "/assets/dog.jpeg"
+    "file_name": "dog.jpeg",
+    "comments": [
+      "This meme cured my depression!",
+      "I showed this to my dog, and now he thinks he's a comedian."
+    ],
+    "creation_date": "23/06/1988"
   },
   {
     "id": 2,
     "title": "Distracted Boyfriend Meme",
     "votes": 300,
     "screen_reader": "A meme showing a man saying something ridiculous",
-    "file_path": "/assets/example.jpg"
+    "file_name": "example.jpg",
+    "comments": [
+      "This is the story of my love life in one meme.",
+      "The guy in this meme is my spirit animal."
+    ],
+    "creation_date": "15/02/2019"
   },
   {
     "id": 3,
     "title": "LOTR Guy Meme",
     "votes": 200,
     "screen_reader": "A meme featuring a character from LOTR",
-    "file_path": "/assets/meme6.jpg"
+    "file_name": "meme6.jpg",
+    "comments": [
+      "One does not simply stop laughing at this meme.",
+      "This meme made me re-watch the entire LOTR trilogy!"
+    ],
+    "creation_date": "02/05/2016"
   },
   {
     "id": 4,
     "title": "LOTR Guy Meme",
     "votes": 200,
     "screen_reader": "A meme featuring a character from LOTR",
-    "file_path": "/assets/cut.jpg"
+    "file_name": "cut.jpg",
+    "comments": [
+      "I wish I had a Gandalf to guide me through life like in this meme.",
+      "I'm using this meme as my motivational poster."
+    ],
+    "creation_date": "19/11/2017"
   },
   {
     "id": 5,
     "title": "Girl Meme",
     "votes": 200,
-    "screen_reader": "A meme featuring a socially awkard person",
-    "file_path": "/assets/girl.jpg"
+    "screen_reader": "A meme featuring a socially awkward person",
+    "file_name": "girl.jpg",
+    "comments": [
+      "I relate to this meme on a spiritual level.",
+      "This meme perfectly captures my social anxiety."
+    ],
+    "creation_date": "10/08/2020"
   },
   {
     "id": 6,
     "title": "GPT Meme",
     "votes": 200,
     "screen_reader": "Some mockery about technology",
-    "file_path": "/assets/girl2.jpg"
+    "file_name": "girl2.jpg",
+    "comments": [
+      "This meme is so meta, even GPT-3 couldn't come up with it!",
+      "My AI assistant said this meme is hilarious."
+    ],
+    "creation_date": "28/03/2021"
   }
 ]

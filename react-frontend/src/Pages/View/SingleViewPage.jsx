@@ -7,6 +7,8 @@ function SingleViewPage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [autoplay, setAutoplay] = useState(false);
+    const [sortBy, setSortBy] = useState('creationDate');
+    const [filterValue, setFilterValue] = useState('');
     const currentMemeIndex = id ? parseInt(id, 10) - 1 : 0;
 
     useEffect(() => {
@@ -27,48 +29,74 @@ function SingleViewPage() {
         fetchMemes();
     }, []);
 
-    useEffect(() => {
-        let intervalId;
+    const filteredMemes = memes.filter(meme => meme.id.toString().includes(filterValue));
 
-        if (autoplay) {
-            intervalId = setInterval(() => {
-                const nextIndex = (currentMemeIndex + 1) % memes.length;
-                navigate(`/single-view/${nextIndex + 1}`);
-            }, 3000); // Change interval as needed
+    const sortedMemes = [...filteredMemes].sort((a, b) => {
+        if (sortBy === 'id') {
+            return a.id - b.id;
+        } else if (sortBy === 'idDesc') {
+            return b.id - a.id; // Sort by ID in descending order
+        } else if (sortBy === 'creationDate') {
+            return a.creationDate - b.creationDate;
+        } else if (sortBy === 'creationDateDesc') {
+            return b.creationDate - a.creationDate; // Sort by creation date in descending order
+        } else if (sortBy === 'alphabeticalAZ' || sortBy === 'alphabeticalZA') {
+            const nameA = a.title.toUpperCase();
+            const nameB = b.title.toUpperCase();
+            if (sortBy === 'alphabeticalAZ') {
+                return nameA.localeCompare(nameB);
+            } else {
+                return nameB.localeCompare(nameA);
+            }
         }
-
-        return () => {
-            clearInterval(intervalId);
-        };
-    }, [autoplay, currentMemeIndex, memes, navigate]);
+        return 0;
+    });
 
     const handleNext = () => {
-        const nextIndex = (currentMemeIndex + 1) % memes.length;
-        navigate(`/single-view/${nextIndex + 1}`);
+        const nextIndex = (currentMemeIndex + 1) % sortedMemes.length;
+        navigate(`/single-view/${sortedMemes[nextIndex]?.id}`);
     };
 
     const handlePrevious = () => {
-        const prevIndex = currentMemeIndex === 0 ? memes.length - 1 : currentMemeIndex - 1;
-        navigate(`/single-view/${prevIndex + 1}`);
+        const prevIndex = currentMemeIndex === 0 ? sortedMemes.length - 1 : currentMemeIndex - 1;
+        navigate(`/single-view/${sortedMemes[prevIndex]?.id}`);
     };
 
     const handleRandom = () => {
-        const randomIndex = Math.floor(Math.random() * memes.length);
-        navigate(`/single-view/${randomIndex + 1}`);
+        const randomIndex = Math.floor(Math.random() * sortedMemes.length);
+        navigate(`/single-view/${sortedMemes[randomIndex]?.id}`);
     };
 
     const handleAutoplay = () => {
         setAutoplay(!autoplay);
     };
 
-    if (!memes.length) {
-        return <div>Loading...</div>;
-    }
-
     return (
         <div className="single-view-page">
+            <div className="filter-sort">
+                <label htmlFor="filterInput">Filter by ID:</label>
+                <input
+                    type="text"
+                    id="filterInput"
+                    value={filterValue}
+                    onChange={e => setFilterValue(e.target.value)}
+                />
+                <label htmlFor="sortBySelect">Sort by:</label>
+                <select
+                    id="sortBySelect"
+                    value={sortBy}
+                    onChange={e => setSortBy(e.target.value)}
+                >
+                    <option value="id">ID (Lowest to Highest)</option>
+                    <option value="idDesc">ID (Highest to Lowest)</option>
+                    <option value="creationDate">Creation Date (Lowest to Highest)</option>
+                    <option value="creationDateDesc">Creation Date (Highest to Lowest)</option>
+                    <option value="alphabeticalAZ">Alphabetical A to Z</option>
+                    <option value="alphabeticalZA">Alphabetical Z to A</option>
+                </select>
+            </div>
             <div className="meme-container">
-                <img src={memes[currentMemeIndex]?.file_path} alt="Meme" />
+                <img src={"/assets/" + sortedMemes[currentMemeIndex]?.file_name} alt="Meme" />
             </div>
             <div className="navigation-buttons">
                 <button onClick={handlePrevious}>Previous</button>
