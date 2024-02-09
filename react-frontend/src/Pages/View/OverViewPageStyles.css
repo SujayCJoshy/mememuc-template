@@ -1,0 +1,72 @@
+.bg-coral {
+    background-color: #FF6347;
+    /* Coral color */
+}
+
+.bg-skyblue {
+    background-color: #87CEEB;
+    /* Sky blue color */
+}
+
+.bg-gold {
+    background-color: #FFD700;
+    /* Gold color */
+}
+
+.h-100 {
+    height: 100vh;
+    /* Set the height to 100% of the viewport height */
+}
+.view-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 50px auto;
+    max-width: 800px;
+}
+
+.page-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.memes-list {
+    list-style: none;
+    padding: 0;
+}
+
+.meme-item {
+    margin-bottom: 30px;
+}
+
+.meme-title {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.meme-votes,
+.meme-screen-reader {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.meme-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #333;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin-top: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

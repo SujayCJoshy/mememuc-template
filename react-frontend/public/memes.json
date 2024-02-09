@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "Funny Dog Meme",
+    "votes": 150,
+    "screen_reader": "A meme featuring a dog with a funny expression",
+    "file_path": "/assets/dog.jpeg"
+  },
+  {
+    "id": 2,
+    "title": "Distracted Boyfriend Meme",
+    "votes": 300,
+    "screen_reader": "A meme showing a man saying something ridiculous",
+    "file_path": "/assets/example.jpg"
+  },
+  {
+    "id": 3,
+    "title": "LOTR Guy Meme",
+    "votes": 200,
+    "screen_reader": "A meme featuring a character from LOTR",
+    "file_path": "/assets/meme6.jpg"
+  },
+  {
+    "id": 4,
+    "title": "LOTR Guy Meme",
+    "votes": 200,
+    "screen_reader": "A meme featuring a character from LOTR",
+    "file_path": "/assets/cut.jpg"
+  },
+  {
+    "id": 5,
+    "title": "Girl Meme",
+    "votes": 200,
+    "screen_reader": "A meme featuring a socially awkard person",
+    "file_path": "/assets/girl.jpg"
+  },
+  {
+    "id": 6,
+    "title": "GPT Meme",
+    "votes": 200,
+    "screen_reader": "Some mockery about technology",
+    "file_path": "/assets/girl2.jpg"
+  }
+]

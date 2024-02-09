@@ -10,10 +10,13 @@ function LandingPage() {
                 <Col className="bg-coral d-flex align-items-center justify-content-center">
                     <Link to="/editor">Editor</Link>
                 </Col>
-                <Col className="bg-skyblue d-flex align-items-center justify-content-center">
-                    <Link to="/memes">Memes</Link>
+                <Col className="bg-teal d-flex align-items-center justify-content-center">
+                    <Link to="/single-view">Single View</Link>
                 </Col>
-                <Col className="bg-gold d-flex align-items-center justify-content-center">
+                <Col className="bg-plum d-flex align-items-center justify-content-center">
+                    <Link to="/memes">Overview</Link>
+                </Col>
+                <Col className="bg-olive d-flex align-items-center justify-content-center">
                     <Link to="/profile">Profile</Link>
                 </Col>
             </Row>
