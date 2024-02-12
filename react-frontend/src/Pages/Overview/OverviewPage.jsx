@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import './OverViewPageStyles.css'; // Import your custom CSS file for styling
-import { Container, Row, Col } from 'react-bootstrap';
+import '../../Styles/Overview/overviewPage.css'; // Import your custom CSS file for styling
+import MemeFilterSort from '../../Components/Overview/overviewMemeFilterSort';
+import MemeList from '../../Components/Overview/overviewMemeList';
 
-function OverViewPage() {
+function OverviewPage() {
     const [memes, setMemes] = useState([]);
     const [displayedMemes, setDisplayedMemes] = useState(3);
     const [loading, setLoading] = useState(false);
@@ -95,49 +96,20 @@ function OverViewPage() {
         }
     };
 
+    // Adjusted return statement to include new components
     return (
         <div className="view-page-container">
             <h1 className="page-title">Memes</h1>
-            <div className="filter-sort" style={{ marginBottom: '40px' }}>
-                <label htmlFor="filterInput">Filter by Title:</label>
-                <input
-                    type="text"
-                    id="filterInput"
-                    value={filterValue}
-                    onChange={e => setFilterValue(e.target.value)}
-                />
-                <label htmlFor="sortBySelect">Sort by:</label>
-                <select
-                    id="sortBySelect"
-                    value={sortBy}
-                    onChange={e => setSortBy(e.target.value)}
-                >
-                    <option value="votes">Votes (Lowest to Highest)</option>
-                    <option value="votesDesc">Votes (Highest to Lowest)</option>
-                    <option value="id">ID (Lowest to Highest)</option>
-                    <option value="idDesc">ID (Highest to Lowest)</option>
-                    <option value="alphabeticalAZ">Alphabetical A to Z</option>
-                    <option value="alphabeticalZA">Alphabetical Z to A</option>
-                </select>
-            </div>
-            <ul className="memes-list">
-                {sortedMemes.slice(0, displayedMemes).map((meme, index) => (
-                    <li key={index} className="meme-item" style={{ marginBottom: '60px' }}>
-                        <h2 className="meme-title">{meme.title}</h2>
-                        <p className="meme-votes">Votes: {meme.votes}</p>
-                        <div className="meme-buttons">
-                            <button onClick={() => handleVote(meme.id, 'upvote')}>Upvote</button>
-                            <button onClick={() => handleVote(meme.id, 'downvote')}>Downvote</button>
-                        </div>
-                        <p className="meme-comments">Comments: {meme.comments.length}</p>
-                        <p className="meme-screen-reader">Description: {meme.screen_reader}</p>
-                        <img className="meme-image" src={"/assets/" + meme.file_name} alt={meme.title} />
-                    </li>
-                ))}
-            </ul>
+            <MemeFilterSort
+                filterValue={filterValue}
+                setFilterValue={setFilterValue}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+            />
+            <MemeList memes={sortedMemes.slice(0, displayedMemes)} handleVote={handleVote} />
             {loading && <div className="spinner"></div>}
         </div>
     );
 }
 
-export default OverViewPage;
+export default OverviewPage;

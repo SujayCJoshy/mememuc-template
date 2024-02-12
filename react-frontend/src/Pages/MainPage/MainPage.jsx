@@ -1,4 +1,4 @@
-import './MainPageStyles.css'; // Import your custom CSS file for styling
+import '../../Styles/MainPage/mainPage.css'; // Import your custom CSS file for styling
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
