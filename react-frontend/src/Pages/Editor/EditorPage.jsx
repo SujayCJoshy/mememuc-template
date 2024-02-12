@@ -187,6 +187,26 @@
             // You can set other properties as needed
         };
 
+        const handleShareToFacebook = () => {
+            const url = "URL_OF_YOUR_IMAGE";
+            const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            window.open(facebookUrl, '_blank');
+          };
+          
+          const handleShareToTwitter = () => {
+            const url = "URL_OF_YOUR_IMAGE";
+            const text = "Check out this image!";
+            const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+            window.open(twitterUrl, '_blank');
+          };
+          
+          const handleShareToReddit = () => {
+            const url = "URL_OF_YOUR_IMAGE";
+            const title = "Check out this image!";
+            const redditUrl = `https://www.reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`;
+            window.open(redditUrl, '_blank');
+          };
+
 
         return (
             <Container style={{ maxWidth: '100%', paddingLeft: 30 }}>
@@ -274,6 +294,9 @@
                         <button onClick={handleAddImageUrl}>Add Image</button>
                     </div>
                 )}
+            <button onClick={handleShareToFacebook}>Share to Facebook</button>
+            <button onClick={handleShareToTwitter}>Share to Twitter</button>
+            <button onClick={handleShareToReddit}>Share to Reddit</button>
             </Container>
             
         );
