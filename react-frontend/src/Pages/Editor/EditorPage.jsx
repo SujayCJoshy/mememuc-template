@@ -189,11 +189,11 @@
 
 
         return (
-            <Container>
-                <header style={{ marginLeft: '20px' }}>
+            <Container style={{ maxWidth: '100%', paddingLeft: 30 }}>
+                <header >
                     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
                     </link>
-                    <h1 className={styles.left} style = {{fontFamily:'Arial', marginTop:'10px', marginBottom: '10px'}}>Meme Editor</h1>
+                    <h1 className={styles.left} style = {{fontFamily:'Arial', marginTop:'10px', marginBottom: '10px', fontWeight: 'bold' }}>Meme Editor</h1>
                 </header>
                 <Row className='Menu-Buttons'>
                 <Col>
@@ -204,13 +204,13 @@
                 </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col xs={12} md={5}>
                         <canvas ref={canvasRef} style={{ width: '700px', height: '700px', marginTop: '30px' }} />
                     </Col>
                     {selectedImage && (
                         <>
-                         <Col>
-                            <h2 style = {{fontFamily:'Arial', marginBottom: '10px', marginTop: '30px'}} >Canvas</h2>
+                         <Col xs={12} md={4}>
+                            <h3 style = {{fontFamily:'Arial', marginBottom: '10px', marginTop: '30px'}} >Canvas</h3>
                             <button onClick={toggleColorPopup}>Change Canvas Color</button>
                             {showColorPopup && (
                                 <div className="popup">
@@ -224,17 +224,17 @@
                                 </div>
                             )}
                                     <div style={{ textAlign: 'left' }}>
-                                        <h2 style = {{fontFamily:'Arial', marginBottom: '10px', marginTop: '10px'}} >Image Size</h2>
-                                        <select value={imageSizeOption} onChange={(e) => setImageSizeOption(e.target.value)}>
+                                        <h3 style = {{fontFamily:'Arial', marginBottom: '10px', marginTop: '30px'}} >Image Size</h3>
+                                        <select value={imageSizeOption} onChange={(e) => setImageSizeOption(e.target.value)} style = {{height: '30px'}}>
                                             <option value="cover">Cover (100%)</option>
                                             <option value="eightyPercent">80% of Canvas</option>
                                         </select>
-                                            <h2 style = {{fontFamily:'Arial',  marginBottom: '10px',  marginTop: '10px'}}>Add/Edit Text</h2>
-                                        <label htmlFor="textInput" style={{ marginTop: '10px', marginBottom: '5px' }} >Text:</label>
+                                            <h3 style = {{fontFamily:'Arial',  marginBottom: '10px',  marginTop: '30px'}}>Add/Edit Text</h3>
+                                        <label htmlFor="textInput" style={{ marginTop: '5px', marginBottom: '5px', marginRight:'5px' }} >Text:</label>
                                         <input type="text" value={text} onChange={handleTextChange} />
                                         <br />
                                         <label htmlFor="fontFamilyInput">Font Family:</label>
-                                            <select id="fontFamilyInput" value={fontFamily} onChange={(e) => setFontFamily(e.target.value)} style={{ marginTop: '10px', marginBottom: '10px' }}>
+                                            <select id="fontFamilyInput" value={fontFamily} onChange={(e) => setFontFamily(e.target.value)} style={{ marginTop: '10px', marginBottom: '10px', height: '30px', marginLeft: '10px' }}>
                                                 <option value="Arial">Arial</option>
                                                 <option value="Verdana">Verdana</option>
                                                 <option value="Times New Roman">Times New Roman</option>
@@ -244,19 +244,19 @@
                                             </select>
                                         <br />
                                         <label htmlFor="textColorInput" style ={{ marginBottom: '10px',  marginTop: '10px'}}>Text Color: </label>
-                                        <input type="color" value={textColor} onChange={handleTextColorChange}  />
+                                        <input type="color" value={textColor} onChange={handleTextColorChange} style ={{marginBottom: '10px',  marginTop: '10px', marginLeft: '10px', height: '30px'}} />
                                         <br />
                                         <label htmlFor="textSizeInput" style ={{ marginBottom: '10px',  marginTop: '10px'}}>Text Size:</label>
-                                        <input type="number" value={textSize} onChange={handleTextSizeChange} />
+                                        <input type="number" value={textSize} onChange={handleTextSizeChange} style ={{marginLeft: '10px', height: '30px'}} />
                                         <br />
                                         <label htmlFor="textXInput" style ={{ marginBottom: '10px',  marginTop: '10px'}}>Text X Position:</label>
-                                        <input type="number" value={textX} onChange={handleTextXChange} />
+                                        <input type="number" value={textX} onChange={handleTextXChange} style ={{marginLeft: '10px', height: '30px'}}/>
                                         <br />
                                         <label htmlFor="textYInput" style ={{ marginBottom: '10px',  marginTop: '10px'}}>Text Y Position:</label>
-                                            <input type="number" value={textY} onChange={handleTextYChange} />
+                                            <input type="number" value={textY} onChange={handleTextYChange} style ={{marginLeft: '10px', height: '30px'}}/>
                                         <br />
                                         <label htmlFor="outlineColorInput" style ={{ marginBottom: '10px',  marginTop: '10px'}}>Outline Color:</label>
-                                        <input type="color" value={outlineColor} onChange={handleOutlineColorChange} />
+                                        <input type="color" value={outlineColor} onChange={handleOutlineColorChange} style ={{marginBottom: '10px',  marginTop: '10px', marginLeft: '10px', height: '30px'}} />
                                         <br />
                                         <label htmlFor="outlineThicknessInput" style ={{ marginBottom: '10px',  marginTop: '10px'}}>Outline Thickness:</label>                                            <input type="number" value={outlineThickness} onChange={handleOutlineThicknessChange} />
                                         <br  />
@@ -268,7 +268,7 @@
                         )}
                 </Row>             
                 {showPopup && (
-                    <div className="popup">
+                    <div className="popup" style ={{marginTop:'10px'}}>
                         <input type="file" accept="image/*" onChange={handleImageSelect} />
                         <input type="text" placeholder="Enter Image URL" value={imageUrl} onChange={handleImageUrlChange} />
                         <button onClick={handleAddImageUrl}>Add Image</button>
