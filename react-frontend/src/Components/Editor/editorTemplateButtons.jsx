@@ -1,14 +1,37 @@
-// TemplateButtons.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const TemplateButtons = ({ handleTemplate1, handleTemplate2, handleTemplate3 }) => {
+const TemplateButtons = ({onTemplateSelect}) => {
+    const [templates, setTemplates] = useState([]);
+
+    useEffect(() => {
+        const fetchTemplates = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/templates');
+                setTemplates(response.data);
+            } catch (error) {
+                console.error('Failed to fetch templates:', error);
+            }
+        };
+
+        fetchTemplates();
+    }, []);
+
+    const handleTemplateClick = (templateId) => {
+        // Find the template by ID from the templates state
+        const selectedTemplate = templates.find(template => template._id === templateId);
+        console.log("Selected template:", selectedTemplate);
+        // Here you can implement further logic to use the selectedTemplate object
+        onTemplateSelect(selectedTemplate);
+    };
+
     return (
-        <div style={{ display: 'flex', marginLeft: '30px', marginTop: '20px' }}>
-            <div style={{ marginBottom: '10px', marginLeft: '-10px' }}>
-                <button onClick={handleTemplate1} style={{ marginRight: '30px' }}>Template 1</button>
-                <button onClick={handleTemplate2} style={{ marginRight: '30px' }}>Template 2</button>
-                <button onClick={handleTemplate3} style={{ marginRight: '30px' }}>Template 3</button>
-            </div>
+        <div style={{ display: 'flex', overflowX: 'scroll', marginLeft: '30px', marginTop: '20px', gap: '30px' }}>
+            {templates.map((template) => (
+                <button key={template._id} onClick={() => handleTemplateClick(template._id)} style={{ flex: "0 0 auto" }}>
+                    {template.name || `Template ${template._id}`}
+                </button>
+            ))}
         </div>
     );
 };

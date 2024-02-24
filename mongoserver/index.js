@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors');
 require('dotenv').config();
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
@@ -11,6 +12,7 @@ const Comment = require("./models/comment");
 const app = express();
 const PORT = process.env.DATALAYERPORT; // Port to listen on
 
+app.use(cors());
 app.use(bodyParser.json());
 
 async function startServer() {

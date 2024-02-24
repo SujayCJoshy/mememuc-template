@@ -1,5 +1,7 @@
 // TextEditor.js
 import React from "react";
+import axios from 'axios';
+import { useState} from "react";
 
 const TextEditor = ({
   text,
@@ -24,6 +26,52 @@ const TextEditor = ({
   handleSaveImage,
   handleCanvasColor,
 }) => {
+
+  const [showNameInput, setShowNameInput] = useState(false);
+  const [templateName, setTemplateName] = useState('');
+
+  const initiateSaveTemplate = () => {
+    setShowNameInput(true);
+  };
+
+  const confirmSaveTemplate = async () => {
+    if (!templateName.trim()) {
+      alert('Please provide a name for the template.');
+      return;
+    }
+
+    const templateData = {
+      name: templateName,
+      text,
+      fontFamily,
+      textColor,
+      textSize,
+      textX,
+      textY,
+      outlineColor,
+      outlineThickness,
+      imageSizeOption,
+    };
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      console.log(templateData);
+      const response = await axios.post('http://localhost:3000/templates', templateData, config);
+      console.log('Template saved successfully:', response.data);
+      alert('Template saved successfully');
+      setShowNameInput(false); // Optionally hide the input again or reset state
+      setTemplateName(''); // Reset template name
+    } catch (error) {
+      console.error('Error saving template:', error);
+      alert('Error saving template. Please try again.');
+    }
+  };
+
   return (
     <div style={{ textAlign: "left", marginLeft: "40px", marginTop: "20px" }}>
       <h2 style={{ fontFamily: "Arial" }}>Add/Edit Text</h2>
@@ -77,6 +125,20 @@ const TextEditor = ({
       <button onClick={handleCanvasColor}>Canvas Color</button>
       <button onClick={handleClearText}>Clear Text</button>
       <button onClick={handleSaveImage}>Save Image</button>
+      {showNameInput ? (
+        <>
+          <label htmlFor="templateNameInput">Template Name:</label>
+          <input
+            type="text"
+            value={templateName}
+            onChange={(e) => setTemplateName(e.target.value)}
+            autoFocus
+          />
+          <button onClick={confirmSaveTemplate}>Confirm Save</button>
+        </>
+      ) : (
+        <button onClick={initiateSaveTemplate}>Save Template</button>
+      )}
     </div>
   );
 };

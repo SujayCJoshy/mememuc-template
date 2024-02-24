@@ -1,0 +1,152 @@
+Based on the provided code snippets, here is the API documentation for your Express server application that interacts with MongoDB via Mongoose for managing users, memes, templates, and comments.
+
+## API Documentation
+
+### Base URL
+
+The base URL for the API will depend on where the service is hosted. For local development, it typically is:
+
+```
+http://localhost:<PORT>
+```
+
+Replace `<PORT>` with the value of `DATALAYERPORT` from your `.env` file.
+
+### Endpoints
+
+#### Users
+
+- **Create User**
+  - **Method:** `POST`
+  - **URL:** `/users`
+  - **Body:**
+    ```json
+    {
+      "username": "string",
+      "userid": "string",
+      "useremail": "string",
+      "passwordHash": "string"
+    }
+    ```
+  - **Description:** Creates a new user.
+
+- **Get Users**
+  - **Method:** `GET`
+  - **URL:** `/users`
+  - **Description:** Retrieves all users.
+
+- **Update User**
+  - **Method:** `PATCH`
+  - **URL:** `/users/:id`
+  - **Description:** Updates an existing user by ID.
+  - **URL Parameters:** `id` (user's ID)
+
+- **Delete User**
+  - **Method:** `DELETE`
+  - **URL:** `/users/:id`
+  - **Description:** Deletes a user by ID.
+  - **URL Parameters:** `id` (user's ID)
+
+#### Memes
+
+- **Create Meme**
+  - **Method:** `POST`
+  - **URL:** `/memes`
+  - **Body:**
+    ```json
+    {
+      "title": "string",
+      "topCaption": "string",
+      "bottomCaption": "string",
+      "template": "ObjectId",
+      "user": "ObjectId"
+    }
+    ```
+  - **Description:** Creates a new meme.
+
+- **Get Memes**
+  - **Method:** `GET`
+  - **URL:** `/memes`
+  - **Description:** Retrieves all memes.
+
+- **Update Meme**
+  - **Method:** `PATCH`
+  - **URL:** `/memes/:id`
+  - **Description:** Updates an existing meme by ID.
+  - **URL Parameters:** `id` (meme's ID)
+
+- **Delete Meme**
+  - **Method:** `DELETE`
+  - **URL:** `/memes/:id`
+  - **Description:** Deletes a meme by ID.
+  - **URL Parameters:** `id` (meme's ID)
+
+#### Templates
+
+- **Create Template**
+  - **Method:** `POST`
+  - **URL:** `/templates`
+  - **Body:**
+    ```json
+    {
+      "name": "string",
+      "imageUrl": "string"
+    }
+    ```
+  - **Description:** Creates a new template.
+
+- **Get Templates**
+  - **Method:** `GET`
+  - **URL:** `/templates`
+  - **Description:** Retrieves all templates.
+
+- **Update Template**
+  - **Method:** `PATCH`
+  - **URL:** `/templates/:id`
+  - **Description:** Updates an existing template by ID.
+  - **URL Parameters:** `id` (template's ID)
+
+- **Delete Template**
+  - **Method:** `DELETE`
+  - **URL:** `/templates/:id`
+  - **Description:** Deletes a template by ID.
+  - **URL Parameters:** `id` (template's ID)
+
+#### Comments
+
+- **Create Comment**
+  - **Method:** `POST`
+  - **URL:** `/comments`
+  - **Body:**
+    ```json
+    {
+      "userId": "ObjectId",
+      "text": "string"
+    }
+    ```
+  - **Description:** Creates a new comment.
+
+- **Get Comments**
+  - **Method:** `GET`
+  - **URL:** `/comments`
+  - **Description:** Retrieves all comments.
+
+- **Update Comment**
+  - **Method:** `PATCH`
+  - **URL:** `/comments/:id`
+  - **Description:** Updates an existing comment by ID.
+  - **URL Parameters:** `id` (comment's ID)
+
+- **Delete Comment**
+  - **Method:** `DELETE`
+  - **URL:** `/comments/:id`
+  - **Description:** Deletes a comment by ID.
+  - **URL Parameters:** `id` (comment's ID)
+
+### Error Handling
+
+Responses from these endpoints will include appropriate HTTP status codes. For successful operations, a `200 OK` (or `201 Created` for creation operations) status will be returned along with the created or modified object. For errors, expect:
+
+- `400 Bad Request` if the request body doesn't contain valid data.
+- `404 Not Found` if an attempt is made to access or modify a resource that doesn't exist.
+- `500 Internal Server Error` for server errors or if the database connection fails.

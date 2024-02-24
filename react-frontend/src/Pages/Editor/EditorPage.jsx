@@ -180,8 +180,8 @@ const EditorPage = () => {
     setTogglePopup(!togglePopup);
   };
 
-  const handleTemplate1 = () => {
-    // Set properties for template 1
+  const handleTemplate = (selectedTemplate) => {
+    console.log('Selected template in ParentComponent:', selectedTemplate);
     setText("Template 1 Text");
     setTextColor("white");
     setTextSize(20);
@@ -190,29 +190,20 @@ const EditorPage = () => {
     setTextStyle("template1");
   };
 
-  const handleTemplate2 = () => {
-    // Set properties for template 2
-    setText("Template 2 Text");
-    setTextColor("black");
-    setTextSize(25);
-    setTextX(100);
-    setTextY(100);
-    // You can set other properties as needed
-  };
-
-  const handleTemplate3 = () => {
-    // Set properties for template 3
-    setText("Template 3 Text");
-    setTextColor("red");
-    setTextSize(30);
-    setTextX(150);
-    setTextY(150);
-    // You can set other properties as needed
-  };
+  const handleSelectedTemplate = (template) => {
+    console.log('Selected template in ParentComponent:', template);
+    setText(template.text);
+    setTextColor(template.textColor);
+    setTextSize(template.textSize);
+    setTextX(template.textX);
+    setTextY(template.textY);
+    setTextStyle("template1");
+};
 
   const handleClearText = () => {
     setText("");
   };
+  
 
   return (
     <Container fluid style={{ textAlign: "left" }}>
@@ -229,9 +220,7 @@ const EditorPage = () => {
             handleAddImageUrl={handleAddImageUrl}
           />
           <TemplateButtons
-            handleTemplate1={handleTemplate1}
-            handleTemplate2={handleTemplate2}
-            handleTemplate3={handleTemplate3}
+            onTemplateSelect={handleSelectedTemplate}
           />
           {/* Flex container for Canvas and TextEditor */}
           <div
