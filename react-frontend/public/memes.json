@@ -1,17 +1,5 @@
 [
   {
-    "id": 1,
-    "title": "Funny Dog Meme",
-    "votes": 150,
-    "screen_reader": "A meme featuring a dog with a funny expression",
-    "file_name": "dog.jpeg",
-    "comments": [
-      "This meme cured my depression!",
-      "I showed this to my dog, and now he thinks he's a comedian."
-    ],
-    "creation_date": "23/06/1988"
-  },
-  {
     "id": 2,
     "title": "Distracted Boyfriend Meme",
     "votes": 300,
