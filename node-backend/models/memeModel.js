@@ -1,20 +1,6 @@
-import { Schema, model, Types } from "mongoose";
-import { Comment } from "./commentModel"; // Make sure to export Comment interface
+const { Schema, model } = require('mongoose');
 
-interface Meme {
-  title: string;
-  topCaption: string;
-  bottomCaption: string;
-  template: Types.ObjectId;
-  user: Types.ObjectId;
-  creationDate: Date;
-  comments: Types.DocumentArray<Comment>;
-  views: number;
-  votes: number;
-  isPrivate: boolean;
-}
-
-const memeSchema = new Schema<Meme>({
+const memeSchema = new Schema({
   title: { type: String, required: true },
   topCaption: { type: String, required: true },
   bottomCaption: { type: String, required: true },
@@ -27,6 +13,6 @@ const memeSchema = new Schema<Meme>({
   isPrivate: { type: Boolean, default: false },
 }, { timestamps: true });
 
-const MemeModel = model<Meme>('Meme', memeSchema);
+const MemeModel = model('Meme', memeSchema);
 
-export { MemeModel, Meme };
+module.exports = MemeModel;
