@@ -1,34 +1,63 @@
-// TextEditor.js
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import { useState} from "react";
+import TextOptions from './editorTextOptions';
 
 const TextEditor = ({
-  text,
-  fontFamily,
-  textColor,
-  textSize,
-  textX,
-  textY,
-  outlineColor,
-  outlineThickness,
-  imageSizeOption,
+  handleTextOptionsChange,
   handleImageSizeOption,
-  handleTextChange,
-  handleFontFamilyChange,
-  handleTextColorChange,
-  handleTextSizeChange,
-  handleTextXChange,
-  handleTextYChange,
-  handleOutlineColorChange,
-  handleOutlineThicknessChange,
-  handleClearText,
   handleSaveImage,
   handleCanvasColor,
 }) => {
+  const [textOptions, setTextOptions] = useState([{
+    text: '',
+    fontFamily: '',
+    textColor: '',
+    textSize: '',
+    textX: '',
+    textY: '',
+    outlineColor: '',
+    outlineThickness: '',
+    imageSizeOption: '',
+  }]);
+
+  useEffect(() => {
+    console.log("Running2", textOptions)
+    handleTextOptionsChange(textOptions);
+  }, [textOptions, handleTextOptionsChange]);
+
 
   const [showNameInput, setShowNameInput] = useState(false);
   const [templateName, setTemplateName] = useState('');
+
+  const addTextOption = () => {
+    const newTextOption = {
+      text: '',
+      fontFamily: '',
+      textColor: '',
+      textSize: '',
+      textX: '',
+      textY: '',
+      outlineColor: '',
+      outlineThickness: '',
+      imageSizeOption: '',
+    };
+    setTextOptions([...textOptions, newTextOption]);
+  };
+
+  const deleteTextOption = (index) => {
+    const newTextOptions = textOptions.filter((_, idx) => idx !== index);
+    setTextOptions(newTextOptions);
+  };
+
+  const handleChange = (index, name, value) => {
+    const updatedOptions = textOptions.map((option, idx) => {
+      if (idx === index) {
+        return { ...option, [name]: value };
+      }
+      return option;
+    });
+    setTextOptions(updatedOptions);
+  };
 
   const initiateSaveTemplate = () => {
     setShowNameInput(true);
@@ -40,17 +69,10 @@ const TextEditor = ({
       return;
     }
 
+    // Include textOptions in templateData
     const templateData = {
       name: templateName,
-      text,
-      fontFamily,
-      textColor,
-      textSize,
-      textX,
-      textY,
-      outlineColor,
-      outlineThickness,
-      imageSizeOption,
+      textOptions, // Now saving all text options
     };
 
     const config = {
@@ -64,8 +86,8 @@ const TextEditor = ({
       const response = await axios.post('http://localhost:3000/templates', templateData, config);
       console.log('Template saved successfully:', response.data);
       alert('Template saved successfully');
-      setShowNameInput(false); // Optionally hide the input again or reset state
-      setTemplateName(''); // Reset template name
+      setShowNameInput(false);
+      setTemplateName('');
     } catch (error) {
       console.error('Error saving template:', error);
       alert('Error saving template. Please try again.');
@@ -74,56 +96,17 @@ const TextEditor = ({
 
   return (
     <div style={{ textAlign: "left", marginLeft: "40px", marginTop: "20px" }}>
-      <h2 style={{ fontFamily: "Arial" }}>Add/Edit Text</h2>
-      <select value={imageSizeOption} onChange={handleImageSizeOption}>
-        <option value="cover">Cover (100%)</option>
-        <option value="eightyPercent">80% of Canvas</option>
-      </select>
-      <label htmlFor="textInput">Text:</label>
-      <input type="text" value={text} onChange={handleTextChange} />
-      <br />
-      <label htmlFor="fontFamilyInput">Font Family:</label>
-      <select
-        id="fontFamilyInput"
-        value={fontFamily}
-        onChange={handleFontFamilyChange}
-      >
-        <option value="Arial">Arial</option>
-        <option value="Verdana">Verdana</option>
-        <option value="Times New Roman">Times New Roman</option>
-        <option value="Georgia">Georgia</option>
-        <option value="Courier New">Courier New</option>
-        <option value="Anton">Anton</option>
-      </select>
-      <br />
-      <label htmlFor="textColorInput">Text Color:</label>
-      <input type="color" value={textColor} onChange={handleTextColorChange} />
-      <br />
-      <label htmlFor="textSizeInput">Text Size:</label>
-      <input type="number" value={textSize} onChange={handleTextSizeChange} />
-      <br />
-      <label htmlFor="textXInput">Text X Position:</label>
-      <input type="number" value={textX} onChange={handleTextXChange} />
-      <br />
-      <label htmlFor="textYInput">Text Y Position:</label>
-      <input type="number" value={textY} onChange={handleTextYChange} />
-      <br />
-      <label htmlFor="outlineColorInput">Outline Color:</label>
-      <input
-        type="color"
-        value={outlineColor}
-        onChange={handleOutlineColorChange}
-      />
-      <br />
-      <label htmlFor="outlineThicknessInput">Outline Thickness:</label>
-      <input
-        type="number"
-        value={outlineThickness}
-        onChange={handleOutlineThicknessChange}
-      />
-      <br />
+      {textOptions.map((option, index) => (
+        <div key={index}>
+          <TextOptions
+            option={option}
+            handleChange={(name, value) => handleChange(index, name, value)}
+          />
+          <button onClick={() => deleteTextOption(index)}>Delete Text Option</button>
+        </div>
+      ))}
+      <button onClick={addTextOption}>Add Text Option</button>
       <button onClick={handleCanvasColor}>Canvas Color</button>
-      <button onClick={handleClearText}>Clear Text</button>
       <button onClick={handleSaveImage}>Save Image</button>
       {showNameInput ? (
         <>

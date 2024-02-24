@@ -26,66 +26,64 @@ const EditorPage = () => {
   const [fontFamily, setFontFamily] = useState("Arial");
   const [showColorPopup, setShowColorPopup] = useState(false);
   const [tempCanvasColor, setTempCanvasColor] = useState("white");
+  const [textOptions, setTextOptions] = useState([]);
+
 
   useEffect(() => {
+    console.log("Running1", textOptions)
     const canvas = canvasRef.current;
     if (!canvas) return; // Ensure canvas is available
     const ctx = canvas.getContext("2d");
-
+  
     // Clear canvas
-    ctx.fillStyle = canvasColor; // Set canvas color
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous drawings
+    ctx.fillStyle = canvasColor; // Set canvas background color
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+  
     // Draw image
     if (selectedImage) {
       const image = new Image();
       image.src = selectedImage;
       image.onload = () => {
         // Calculate image dimensions based on the canvas size and selected option
-        let imageWidth =
-          imageSizeOption === "cover" ? canvas.width : canvas.width * 0.8;
-        let imageHeight =
-          imageSizeOption === "cover" ? canvas.height : canvas.height * 0.8;
-
-        // Calculate image position based on canvas size and selected option
+        let imageWidth = imageSizeOption === "cover" ? canvas.width : canvas.width * 0.8;
+        let imageHeight = imageSizeOption === "cover" ? canvas.height : canvas.height * 0.8;
+  
+        // Calculate image position
         const imageX = (canvas.width - imageWidth) / 2;
         const imageY = (canvas.height - imageHeight) / 2;
-
+  
         // Render the image
         ctx.drawImage(image, imageX, imageY, imageWidth, imageHeight);
-
-        // Clear the area for the image to prevent overlapping texts on multiple updates
-        //ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Set the font using the selected fontFamily and textSize
-        ctx.font = `${textSize}px ${fontFamily}`;
-        ctx.fillText(text, textX, textY);
-
-        // Draw text on top of the image
-        ctx.fillStyle = textColor;
-
-        // Apply text outline
-        ctx.shadowColor = outlineColor;
-        ctx.shadowBlur = outlineThickness;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
-        ctx.fillText(text, textX, textY);
+  
+        // Loop through each text option and draw it on the canvas
+        textOptions.forEach((textOption) => {
+          const {
+            text,
+            fontFamily,
+            textColor,
+            textSize,
+            textX,
+            textY,
+            outlineColor,
+            outlineThickness,
+          } = textOption;
+  
+          // Set the font, text color, and outline properties
+          ctx.font = `${textSize}px ${fontFamily}`;
+          ctx.fillStyle = textColor;
+          ctx.shadowColor = outlineColor;
+          ctx.shadowBlur = outlineThickness;
+          ctx.shadowOffsetX = 0;
+          ctx.shadowOffsetY = 0;
+  
+          // Draw the text
+          ctx.fillText(text, textX, textY);
+        });
       };
     }
-  }, [
-    selectedImage,
-    text,
-    textColor,
-    textSize,
-    textX,
-    textY,
-    textStyle,
-    canvasColor,
-    imageSizeOption,
-    outlineColor,
-    outlineThickness,
-    fontFamily,
-  ]);
+  }, [textOptions, selectedImage, canvasColor, imageSizeOption, canvasRef]);
+  
 
   const confirmCanvasColorChange = () => {
     setCanvasColor(tempCanvasColor);
@@ -113,7 +111,7 @@ const EditorPage = () => {
       .toLowerCase();
     if (imageExtensions.includes(extension)) {
       setSelectedImage(imageUrl);
-      console.log("image added")
+      console.log("image added");
     } else {
       alert("Please provide a valid image URL.");
     }
@@ -121,9 +119,9 @@ const EditorPage = () => {
   };
 
   const handleSelectImage = (url) => {
-    console.log(url)
+    console.log(url);
     setSelectedImage(url);
-    console.log("image added")
+    console.log("image added");
   };
 
   const handleTextChange = (event) => {
@@ -188,7 +186,7 @@ const EditorPage = () => {
   };
 
   const handleTemplate = (selectedTemplate) => {
-    console.log('Selected template in ParentComponent:', selectedTemplate);
+    console.log("Selected template in ParentComponent:", selectedTemplate);
     setText("Template 1 Text");
     setTextColor("white");
     setTextSize(20);
@@ -198,20 +196,44 @@ const EditorPage = () => {
   };
 
   const handleSelectedTemplate = (template) => {
-    console.log('Selected template in ParentComponent:', template);
+    console.log("Selected template in ParentComponent:", template);
     setText(template.text);
     setTextColor(template.textColor);
     setTextSize(template.textSize);
     setTextX(template.textX);
     setTextY(template.textY);
     setTextStyle("template1");
-};
+  };
+
+  const handleTextOptionsChange = (newTextOptions) => {
+    setTextOptions(newTextOptions);
+  };
 
   const handleClearText = () => {
     setText("");
   };
-  
 
+  // Function to remove a text option by id
+  const removeTextOption = (id) => {
+    setTextOptions(textOptions.filter(option => option.id !== id));
+  };
+
+  const addTextOption = () => {
+    const newTextOption = {
+      id: Date.now(), // Simple way to generate a unique id
+      text: '',
+      fontFamily: '',
+      textColor: '',
+      textSize: '',
+      textX: '',
+      textY: '',
+      outlineColor: '',
+      outlineThickness: '',
+    };
+    setTextOptions([...textOptions, newTextOption]);
+  };
+
+  
   return (
     <Container fluid style={{ textAlign: "left" }}>
       <Header
@@ -227,9 +249,7 @@ const EditorPage = () => {
             handleAddImageUrl={handleAddImageUrl}
             handleSelectImage={handleSelectImage}
           />
-          <TemplateButtons
-            onTemplateSelect={handleSelectedTemplate}
-          />
+          <TemplateButtons onTemplateSelect={handleSelectedTemplate} />
           {/* Flex container for Canvas and TextEditor */}
           <div
             style={{
@@ -261,27 +281,11 @@ const EditorPage = () => {
             </div>
             <div style={{ minWidth: "300px", minHeight: "500px" }}>
               <TextEditor
-                text={text}
-                fontFamily={fontFamily}
-                textColor={textColor}
-                textSize={textSize}
-                textX={textX}
-                textY={textY}
-                outlineColor={outlineColor}
-                outlineThickness={outlineThickness}
-                imageSizeOption={imageSizeOption}
-                handleImageSizeOption={handleImageSizeOption}
-                handleTextChange={handleTextChange}
-                handleFontFamilyChange={handleFontFamilyChange}
-                handleTextColorChange={handleTextColorChange}
-                handleTextSizeChange={handleTextSizeChange}
-                handleTextXChange={handleTextXChange}
-                handleTextYChange={handleTextYChange}
-                handleOutlineColorChange={handleOutlineColorChange}
-                handleOutlineThicknessChange={handleOutlineThicknessChange}
-                handleClearText={handleClearText}
-                handleSaveImage={handleSaveImage}
-                handleCanvasColor={toggleColorPopup}
+                handleTextOptionsChange={handleTextOptionsChange}
+                textOptions={textOptions}
+                setTextOptions={setTextOptions}
+                addTextOption={addTextOption}
+                removeTextOption={removeTextOption}
               />
 
               {showColorPopup && (
