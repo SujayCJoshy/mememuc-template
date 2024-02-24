@@ -37,8 +37,8 @@ const EditorPage = () => {
     const ctx = canvas.getContext("2d");
 
     // Update canvas size
-    canvas.width = showCanvasSizeW; // Set canvas width
-    canvas.height = showCanvasSizeH; // Set canvas height
+    //canvas.width = showCanvasSizeW; // Set canvas width
+    //canvas.height = showCanvasSizeH; // Set canvas height
 
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous drawings
