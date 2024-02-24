@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv').config();
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -8,7 +9,7 @@ const Template = require("./models/template");
 const Comment = require("./models/comment");
 
 const app = express();
-const PORT = 3000; // Port to listen on
+const PORT = process.env.DATALAYERPORT; // Port to listen on
 
 app.use(bodyParser.json());
 

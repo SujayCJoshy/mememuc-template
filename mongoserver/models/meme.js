@@ -1,3 +1,5 @@
+const { Schema, model } = require('mongoose');
+
 const memeSchema = new Schema({
   title: { type: String, required: true },
   topCaption: { type: String },
