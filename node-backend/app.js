@@ -23,8 +23,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // Import the routers from your API modules
-const memeCreationRouter = require('./path/to/memeCreationAPI'); // Update the path as necessary
-const memeRetrievalRouter = require('./path/to/memeRetrievalAPI'); // Update the path as necessary
+const memeCreationRouter = require('./api/memeCreationAPI'); // Update the path as necessary
+const memeRetrievalRouter = require('./api/memeRetrievalAPI'); // Update the path as necessary
 
 // use 
 app.use(logger('dev'));
@@ -84,5 +84,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;

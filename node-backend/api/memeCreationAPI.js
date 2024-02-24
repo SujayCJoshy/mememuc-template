@@ -1,8 +1,8 @@
 // Importing necessary modules
 const express = require('express');
 const bodyParser = require('body-parser'); // For parsing POST request bodies
-const ImageEditor = require("../../tools/imageEditor");
-const { zipBuffers } = require("../../tools/imageZipper");
+const ImageEditor = require("../tools/imageEditor");
+const { zipBuffers } = require("../tools/imageZipper");
 
 // Creating an Express app and router
 const app = express();
@@ -66,7 +66,7 @@ async function fetchMemeUrl(template) {
 // Use the router and start the server
 app.use('/api', router);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.BACKENDCRPORT || 3011;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

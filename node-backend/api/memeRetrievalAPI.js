@@ -1,9 +1,9 @@
 // Import necessary modules
 const express = require('express');
 const bodyParser = require('body-parser'); // For parsing JSON bodies, if needed for advanced filtering
-const { findMemesInDB } = require('../../tools/dbApiSearch');
-const { zipBuffers } = require("../../tools/imageZipper");
-const { createJpegNameBuffersFromMemes, attachMetadataToMemes } = require("../../tools/imageConverter");
+const { findMemesInDB } = require('../tools/dbApiSearch');
+const { zipBuffers } = require("../tools/imageZipper");
+const { createJpegNameBuffersFromMemes, attachMetadataToMemes } = require("../tools/imageConverter");
 
 // Create an Express app and router
 const app = express();
@@ -61,21 +61,21 @@ async function getMemeMetadataById(memeId) {
 }
 
 // Function to attach metadata to each meme in the list
-async function attachMetadataToMemes(memes) {
-    // Map each meme to a promise that resolves to the meme with its metadata attached
-    const memesWithMetadataPromises = memes.map(async (meme) => {
-        const metadata = await getMemeMetadataById(meme.id); // Assume each meme has an id
-        return { ...meme, metadata }; // Combine the meme object with its metadata
-    });
+// async function attachMetadataToMemes(memes) {
+//     // Map each meme to a promise that resolves to the meme with its metadata attached
+//     const memesWithMetadataPromises = memes.map(async (meme) => {
+//         const metadata = await getMemeMetadataById(meme.id); // Assume each meme has an id
+//         return { ...meme, metadata }; // Combine the meme object with its metadata
+//     });
 
-    // Wait for all promises to resolve and return the enhanced memes
-    return await Promise.all(memesWithMetadataPromises);
-}
+//     // Wait for all promises to resolve and return the enhanced memes
+//     return await Promise.all(memesWithMetadataPromises);
+// }
 
 // Use the router and start the server
 app.use('/api', router);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.BACKENDREPORT || 3012;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
