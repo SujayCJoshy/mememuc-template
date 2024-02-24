@@ -27,35 +27,42 @@ const EditorPage = () => {
   const [showColorPopup, setShowColorPopup] = useState(false);
   const [tempCanvasColor, setTempCanvasColor] = useState("white");
   const [textOptions, setTextOptions] = useState([]);
-
+  const [showCanvasSizeH, setShowCanvasSizeH] = useState(700);
+  const [showCanvasSizeW, setShowCanvasSizeW] = useState(700);
 
   useEffect(() => {
-    console.log("Running1", textOptions)
+    console.log("Running1", textOptions);
     const canvas = canvasRef.current;
     if (!canvas) return; // Ensure canvas is available
     const ctx = canvas.getContext("2d");
-  
+
+    // Update canvas size
+    canvas.width = showCanvasSizeW; // Set canvas width
+    canvas.height = showCanvasSizeH; // Set canvas height
+
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous drawings
     ctx.fillStyle = canvasColor; // Set canvas background color
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
+
     // Draw image
     if (selectedImage) {
       const image = new Image();
       image.src = selectedImage;
       image.onload = () => {
         // Calculate image dimensions based on the canvas size and selected option
-        let imageWidth = imageSizeOption === "cover" ? canvas.width : canvas.width * 0.8;
-        let imageHeight = imageSizeOption === "cover" ? canvas.height : canvas.height * 0.8;
-  
+        let imageWidth =
+          imageSizeOption === "cover" ? canvas.width : canvas.width * 0.8;
+        let imageHeight =
+          imageSizeOption === "cover" ? canvas.height : canvas.height * 0.8;
+
         // Calculate image position
         const imageX = (canvas.width - imageWidth) / 2;
         const imageY = (canvas.height - imageHeight) / 2;
-  
+
         // Render the image
         ctx.drawImage(image, imageX, imageY, imageWidth, imageHeight);
-  
+
         // Loop through each text option and draw it on the canvas
         textOptions.forEach((textOption) => {
           const {
@@ -68,7 +75,7 @@ const EditorPage = () => {
             outlineColor,
             outlineThickness,
           } = textOption;
-  
+
           // Set the font, text color, and outline properties
           ctx.font = `${textSize}px ${fontFamily}`;
           ctx.fillStyle = textColor;
@@ -76,14 +83,21 @@ const EditorPage = () => {
           ctx.shadowBlur = outlineThickness;
           ctx.shadowOffsetX = 0;
           ctx.shadowOffsetY = 0;
-  
+
           // Draw the text
           ctx.fillText(text, textX, textY);
         });
       };
     }
-  }, [textOptions, selectedImage, canvasColor, imageSizeOption, canvasRef]);
-  
+  }, [
+    textOptions,
+    selectedImage,
+    canvasColor,
+    imageSizeOption,
+    canvasRef,
+    showCanvasSizeH,
+    showCanvasSizeW,
+  ]);
 
   const confirmCanvasColorChange = () => {
     setCanvasColor(tempCanvasColor);
@@ -92,6 +106,12 @@ const EditorPage = () => {
 
   const toggleColorPopup = () => {
     setShowColorPopup(!showColorPopup);
+  };
+
+  const handleCanvasSize = (height, width) => {
+    console.log("Changed", height, width);
+    setShowCanvasSizeH(height);
+    setShowCanvasSizeW(width);
   };
 
   const handleImageSelect = (event) => {
@@ -215,25 +235,24 @@ const EditorPage = () => {
 
   // Function to remove a text option by id
   const removeTextOption = (id) => {
-    setTextOptions(textOptions.filter(option => option.id !== id));
+    setTextOptions(textOptions.filter((option) => option.id !== id));
   };
 
   const addTextOption = () => {
     const newTextOption = {
       id: Date.now(), // Simple way to generate a unique id
-      text: '',
-      fontFamily: '',
-      textColor: '',
-      textSize: '',
-      textX: '',
-      textY: '',
-      outlineColor: '',
-      outlineThickness: '',
+      text: "",
+      fontFamily: "",
+      textColor: "",
+      textSize: "",
+      textX: "",
+      textY: "",
+      outlineColor: "",
+      outlineThickness: "",
     };
     setTextOptions([...textOptions, newTextOption]);
   };
 
-  
   return (
     <Container fluid style={{ textAlign: "left" }}>
       <Header
@@ -286,6 +305,9 @@ const EditorPage = () => {
                 setTextOptions={setTextOptions}
                 addTextOption={addTextOption}
                 removeTextOption={removeTextOption}
+                handleCanvasSize={handleCanvasSize}
+                handleCanvasColor={toggleColorPopup}
+                handleSaveImage={handleSaveImage}
               />
 
               {showColorPopup && (

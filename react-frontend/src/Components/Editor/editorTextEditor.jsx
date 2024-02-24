@@ -7,6 +7,7 @@ const TextEditor = ({
   handleImageSizeOption,
   handleSaveImage,
   handleCanvasColor,
+  handleCanvasSize
 }) => {
   const [textOptions, setTextOptions] = useState([{
     text: '',
@@ -20,14 +21,26 @@ const TextEditor = ({
     imageSizeOption: '',
   }]);
 
+
+
+  const [showNameInput, setShowNameInput] = useState(false);
+  const [templateName, setTemplateName] = useState('');
+  const [showCanvasSizeInputs, setShowCanvasSizeInputs] = useState(false);
+  const [canvasSizeInputs, setCanvasSizeInputs] = useState({
+    width: 700, // Default width
+    height: 700, // Default height
+  });
+
   useEffect(() => {
     console.log("Running2", textOptions)
     handleTextOptionsChange(textOptions);
   }, [textOptions, handleTextOptionsChange]);
 
+  useEffect(() => {
+    handleCanvasSize(canvasSizeInputs.height,canvasSizeInputs.width);
+    console.log("size changed", canvasSizeInputs)
+  },[handleCanvasSize, canvasSizeInputs]);
 
-  const [showNameInput, setShowNameInput] = useState(false);
-  const [templateName, setTemplateName] = useState('');
 
   const addTextOption = () => {
     const newTextOption = {
@@ -59,8 +72,21 @@ const TextEditor = ({
     setTextOptions(updatedOptions);
   };
 
+  // Function to update canvas size input values
+  const handleCanvasSizeInput = (e) => {
+    const { name, value } = e.target;
+    setCanvasSizeInputs(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   const initiateSaveTemplate = () => {
     setShowNameInput(true);
+  };
+
+  const toggleCanvasSizeInputs = () => {
+    setShowCanvasSizeInputs(!showCanvasSizeInputs);
   };
 
   const confirmSaveTemplate = async () => {
@@ -105,8 +131,32 @@ const TextEditor = ({
           <button onClick={() => deleteTextOption(index)}>Delete Text Option</button>
         </div>
       ))}
+      
       <button onClick={addTextOption}>Add Text Option</button>
+      <br/><br/>
+      <br/><br/>
       <button onClick={handleCanvasColor}>Canvas Color</button>
+      <button onClick={toggleCanvasSizeInputs}>Canvas Size</button>
+      {showCanvasSizeInputs && (
+        <div>
+          <input
+            type="number"
+            name="width"
+            placeholder="Width"
+            value={canvasSizeInputs.width}
+            onChange={handleCanvasSizeInput}
+          />
+          <input
+            type="number"
+            name="height"
+            placeholder="Height"
+            value={canvasSizeInputs.height}
+            onChange={handleCanvasSizeInput}
+          />
+        </div>
+      )}
+      <br/><br/>
+      <br/><br/>
       <button onClick={handleSaveImage}>Save Image</button>
       {showNameInput ? (
         <>
