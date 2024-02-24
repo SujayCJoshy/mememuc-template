@@ -113,10 +113,17 @@ const EditorPage = () => {
       .toLowerCase();
     if (imageExtensions.includes(extension)) {
       setSelectedImage(imageUrl);
+      console.log("image added")
     } else {
       alert("Please provide a valid image URL.");
     }
     setShowPopup(false);
+  };
+
+  const handleSelectImage = (url) => {
+    console.log(url)
+    setSelectedImage(url);
+    console.log("image added")
   };
 
   const handleTextChange = (event) => {
@@ -218,6 +225,7 @@ const EditorPage = () => {
             handleImageUrlChange={handleImageUrlChange}
             imageUrl={imageUrl}
             handleAddImageUrl={handleAddImageUrl}
+            handleSelectImage={handleSelectImage}
           />
           <TemplateButtons
             onTemplateSelect={handleSelectedTemplate}
